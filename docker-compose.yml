@@ -42,15 +42,12 @@ services:
       - "-c"
       - >
           while true; do
-            sleep 3600;
+            curl -IfsS http://keycloak-api:8080/health;
+            sleep 60;
           done
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://keycloak:8080/health" ]
-      interval: 10s
-      timeout: 60s
-      retries: 5
     depends_on:
       - keycloak-api
+    restart: unless-stopped
 
 volumes:
   keycloak-db:
